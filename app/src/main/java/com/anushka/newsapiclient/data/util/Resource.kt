@@ -1,5 +1,14 @@
 package com.anushka.newsapiclient.data.util
 
+/**
+ * Q.) Enum Vs Sealed
+ *
+Enum class - Helps to restrict the object to have a value from a particular set.(values are restricted)
+
+Sealed class - Helps to restrict the allowed types for an object which helps to write complete and predictable code.
+(types are restricted. One type may have numerous instances)
+ */
+
 sealed class Resource<T>(
     val data: T? = null,
     val message: String? = null

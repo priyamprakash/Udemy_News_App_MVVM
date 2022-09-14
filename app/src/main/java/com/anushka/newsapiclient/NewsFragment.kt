@@ -62,35 +62,36 @@ class NewsFragment : Fragment() {
     private fun viewNewsList() {
 
         viewModel.getNewsHeadLines(country,page)
-        viewModel.newsHeadLines.observe(viewLifecycleOwner,{response->
-            when(response){
-               is com.anushka.newsapiclient.data.util.Resource.Success->{
+        viewModel.newsHeadLines.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is com.anushka.newsapiclient.data.util.Resource.Success -> {
 
-                     hideProgressBar()
-                     response.data?.let {
-                         Log.i("MYTAG","came here ${it.articles.toList().size}")
-                         newsAdapter.differ.submitList(it.articles.toList())
-                         if(it.totalResults%20 == 0) {
-                              pages = it.totalResults / 20
-                         }else{
-                             pages = it.totalResults/20+1
-                         }
-                         isLastPage = page == pages
-                     }
-               }
-                is com.anushka.newsapiclient.data.util.Resource.Error->{
-                   hideProgressBar()
-                   response.message?.let {
-                       Toast.makeText(activity,"An error occurred : $it", Toast.LENGTH_LONG).show()
-                   }
+                    hideProgressBar()
+                    response.data?.let {
+                        Log.i("MYTAG", "came here ${it.articles.toList().size}")
+                        newsAdapter.differ.submitList(it.articles.toList())
+                        if (it.totalResults % 20 == 0) {
+                            pages = it.totalResults / 20
+                        } else {
+                            pages = it.totalResults / 20 + 1
+                        }
+                        isLastPage = page == pages
+                    }
+                }
+                is com.anushka.newsapiclient.data.util.Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity, "An error occurred : $it", Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
 
-                is com.anushka.newsapiclient.data.util.Resource.Loading->{
+                is com.anushka.newsapiclient.data.util.Resource.Loading -> {
                     showProgressBar()
                 }
 
             }
-        })
+        }
     }
 
     private fun initRecyclerView() {
